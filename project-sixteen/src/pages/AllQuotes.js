@@ -5,11 +5,6 @@ import NoQuetesFound from "../components/quotes/NoQuotesFound";
 import useHttp from "../hooks/use-http";
 import { getAllQuotes } from "../lib/api";
 
-const DUMMY_QUOTES = [
-  { id: "q1", author: "Can", text: "Learning React is fun!" },
-  { id: "q2", author: "Max", text: "Learning React is great!" },
-];
-
 const AllQuotes = () => {
   const {
     sendRequest,
@@ -38,7 +33,7 @@ const AllQuotes = () => {
     return <NoQuetesFound />;
   }
 
-  return <QuoteList quotes={DUMMY_QUOTES} />;
+  return <QuoteList quotes={loadedQuotes} />;
 };
 
 export default AllQuotes;
