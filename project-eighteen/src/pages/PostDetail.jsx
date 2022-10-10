@@ -1,7 +1,7 @@
 import { useLoaderData } from 'react-router-dom';
 
 import BlogPost from '../components/BlogPost';
-import NewsletterSignup from '../components/NewsletterSignup';
+import NewsletterSignup from '../components/NewsletterSignup.jsx';
 import { getPost } from '../util/api';
 
 function PostDetailPage() {
