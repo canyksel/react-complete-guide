@@ -7,23 +7,23 @@ import Search from "./Search";
 const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
 
- // useEffect(() => {
- //   fetch(
- //     "https://react-prep-e7c98-default-rtdb.firebaseio.com//ingredients.json"
- //   ).then((response) =>
- //     response.json().then((responseData) => {
- //       const loadedIngredients = [];
- //       for (const key in responseData) {
- //         loadedIngredients.push({
- //           id: key,
- //           title: responseData[key].title,
- //           amount: responseData[key].amount,
- //         });
- //       }
- //       setUserIngredients(loadedIngredients);
- //     })
- //   );
- // }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     "https://react-prep-e7c98-default-rtdb.firebaseio.com//ingredients.json"
+  //   ).then((response) =>
+  //     response.json().then((responseData) => {
+  //       const loadedIngredients = [];
+  //       for (const key in responseData) {
+  //         loadedIngredients.push({
+  //           id: key,
+  //           title: responseData[key].title,
+  //           amount: responseData[key].amount,
+  //         });
+  //       }
+  //       setUserIngredients(loadedIngredients);
+  //     })
+  //   );
+  // }, []);
 
   useEffect(() => {
     console.log("RENDERIN INGREDIENTS", userIngredients);
@@ -35,7 +35,7 @@ const Ingredients = () => {
 
   const addIngredientHandler = (ingredient) => {
     fetch(
-      "https://react-prep-e7c98-default-rtdb.firebaseio.com//ingredients.json",
+      "https://react-prep-e7c98-default-rtdb.firebaseio.com/ingredients.json",
       {
         method: "POST",
         body: JSON.stringify(ingredient),
@@ -54,9 +54,17 @@ const Ingredients = () => {
   };
 
   const removeIngredientHandler = (ingredientId) => {
-    setUserIngredients((prevIngredients) =>
-      prevIngredients.filter((ingredient) => ingredient.id !== ingredientId)
-    );
+    fetch(
+      `https://react-prep-e7c98-default-rtdb.firebaseio.com/ingredients/${ingredientId}.json`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then((response) => {
+      setUserIngredients((prevIngredients) =>
+        prevIngredients.filter((ingredient) => ingredient.id !== ingredientId)
+      );
+    });
   };
 
   return (
