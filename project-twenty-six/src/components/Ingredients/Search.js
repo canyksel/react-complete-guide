@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import Card from "../UI/Card";
+import useHttp from "../../hooks/http";
 import "./Search.css";
 
 const Search = React.memo((props) => {
   const { onLoadIngredients } = props;
   const [enteredFilter, setEnteredFilter] = useState("");
   const inputRef = useRef();
+  const { isLoading, data, error, sendRequest, clear } = useHttp();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,21 +17,14 @@ const Search = React.memo((props) => {
           enteredFilter.length === 0
             ? ""
             : `?orderBy="title"&equalTo="${enteredFilter}"`;
+        sendRequest(
+          "https://react-prep-e7c98-default-rtdb.firebaseio.com//ingredients.json" +
+            query,
+          "GET"
+        );
         fetch(
           "https://react-prep-e7c98-default-rtdb.firebaseio.com//ingredients.json" +
             query
-        ).then((response) =>
-          response.json().then((responseData) => {
-            const loadedIngredients = [];
-            for (const key in responseData) {
-              loadedIngredients.push({
-                id: key,
-                title: responseData[key].title,
-                amount: responseData[key].amount,
-              });
-            }
-            onLoadIngredients(loadedIngredients);
-          })
         );
       }
     }, 500);
