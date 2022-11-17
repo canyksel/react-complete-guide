@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useReducer } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
-import ErroModal from "../UI/ErrorModal";
+import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
 import useHttp from "../../hooks/http";
 
@@ -27,7 +27,7 @@ const Ingredients = () => {
     data,
     sendRequest,
     reqExtra,
-    reqIdentifier,
+    reqIdentifer,
     clear,
   } = useHttp();
 
@@ -54,29 +54,29 @@ const Ingredients = () => {
   // }, []);
 
   useEffect(() => {
-    if (!isLoading && !error && reqIdentifier === "REMOVE_INGREDIENT") {
-      dispatch({ type: "DELETE", id: reqExtra });
-    } else if (!isLoading && !error && reqIdentifier === "ADD_INGREDIENT") {
+    if (!isLoading && !error && reqIdentifer === 'REMOVE_INGREDIENT') {
+      dispatch({ type: 'DELETE', id: reqExtra });
+    } else if (!isLoading && !error && reqIdentifer === 'ADD_INGREDIENT') {
       dispatch({
-        type: "ADD",
-        ingredient: { id: data.name, ...reqExtra },
+        type: 'ADD',
+        ingredient: { id: data.name, ...reqExtra }
       });
     }
-  }, [data, reqExtra, reqIdentifier, isLoading, error]);
+  }, [data, reqExtra, reqIdentifer, isLoading, error]);
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
     //setUserIngredients(filteredIngredients);
-    dispatch({ type: "SET", ingredients: filteredIngredients });
+    dispatch({ type: 'SET', ingredients: filteredIngredients });
   }, []);
 
   const addIngredientHandler = useCallback(
     (ingredient) => {
       sendRequest(
         "https://react-prep-e7c98-default-rtdb.firebaseio.com/ingredients.json",
-        "POST",
+        'POST',
         JSON.stringify(ingredient),
         ingredient,
-        "ADD_INGREDIENT"
+        'ADD_INGREDIENT'
       );
       //dispatchHttp({ type: "SEND" });
       ////setIsLoading(true);
@@ -122,11 +122,11 @@ const Ingredients = () => {
     [sendRequest]
   );
 
-  const clearError = useCallback(() => {
-    //setError(null);
-    //dispatchHttp({ type: "CLEAR" });
-    clear();
-  }, []);
+  //const clearError = useCallback(() => {
+  //  //setError(null);
+  //  //dispatchHttp({ type: "CLEAR" });
+  //  clear();
+  //}, []);
 
   const ingredientList = useMemo(() => {
     return (
@@ -139,7 +139,8 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      {error && <ErroModal onClose={clear}>{error}</ErroModal>}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
+
       <IngredientForm
         onAddIngredient={addIngredientHandler}
         loading={isLoading}
